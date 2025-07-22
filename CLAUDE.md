@@ -2,9 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important Terminology
+- **Artifact = Toy**: In this project, we refer to artifacts as "toys" for simplicity. When the user mentions "toy", they mean "artifact".
+
 ## Project Overview
 
-This is a TOYBOX template - a React-based portfolio/gallery application for showcasing Claude-generated artifacts. It's designed to be deployed to GitHub Pages and serves as a template for creating personal artifact collections.
+This is a TOYBOX template - a React-based portfolio/gallery application for showcasing Claude-generated toys (artifacts). It's designed to be deployed to GitHub Pages and serves as a template for creating personal toy collections.
 
 ## Architecture
 
@@ -15,15 +18,15 @@ This is a TOYBOX template - a React-based portfolio/gallery application for show
 - shadcn/ui component library (Radix UI primitives)
 - React Router for navigation
 
-**Artifact System:**
-- Artifacts are stored in `src/artifacts/` as `.tsx` files or in subdirectories with `index.tsx`
+**Toy System:**
+- Toys are stored in `src/artifacts/` as `.tsx` files or in subdirectories with `index.tsx`
 - Static imports via Vite's `import.meta.glob()` for automatic discovery
 - Support for React, SVG, and Mermaid diagram types
-- Metadata defined within each artifact file
+- Metadata defined within each toy file
 
 **Key Components:**
-- `ArtifactLoader` (`src/lib/artifactLoader.ts`): Core system for discovering and loading artifacts
-- `ArtifactRunner` (`src/components/ArtifactRunner.tsx`): Renders individual artifacts
+- `ArtifactLoader` (`src/lib/artifactLoader.ts`): Core system for discovering and loading toys
+- `ArtifactRunner` (`src/components/ArtifactRunner.tsx`): Renders individual toys
 - `ArtifactGallery` (`src/components/ArtifactGallery.tsx`): Main gallery view
 - UI components in `src/components/ui/`: shadcn/ui component library
 
@@ -99,13 +102,13 @@ Example `github.config.json`:
 - `@/` and `src/` aliases resolve to `./src/`
 - Base path handling for GitHub Pages deployment (set to `/YOUR_REPO_NAME/` in production)
 
-## Artifact Development
+## Toy Development
 
-Create new artifacts in `src/artifacts/`:
-- Direct files: `src/artifacts/my-artifact.tsx`
-- Subdirectories: `src/artifacts/my-artifact/index.tsx`
+Create new toys in `src/artifacts/`:
+- Direct files: `src/artifacts/my-toy.tsx`
+- Subdirectories: `src/artifacts/my-toy/index.tsx`
 
-Each artifact should export metadata and a default React component.
+Each toy should export metadata and a default React component.
 
 ## Build System
 
