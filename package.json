@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://isnbh0.github.io/template-example",
+  "homepage": "https://Baikhojun.github.io/toybox-yooshin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/isnbh0/template-example.git"
+    "url": "https://github.com/Baikhojun/toybox-yooshin.git"
   },
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "test-production": "vite preview --base=/template-example/",
+    "test-production": "vite preview --base=/toybox-yooshin/",
     "update-config": "node scripts/update-config.js"
   },
   "dependencies": {
@@ -94,8 +94,8 @@
   "overrides": {
     "glob": "^10.4.5",
     "rimraf": "^5.0.5",
-    "@humanwhocodes/config-array": "npm:@eslint/config-array@latest",
-    "@humanwhocodes/object-schema": "npm:@eslint/object-schema@latest",
+    "@humanwhocodes/config-array": "^0.13.0",
+    "@humanwhocodes/object-schema": "^2.0.3",
     "inflight": "^2.0.1"
   }
 }
