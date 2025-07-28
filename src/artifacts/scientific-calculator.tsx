@@ -7,6 +7,8 @@ export const metadata = {
   description: "A TI-83 style scientific calculator with continuous scrolling display like the real TI-83",
   type: "react" as const,
   tags: ["calculator", "math", "utility", "ti-83", "graphing"],
+  category: 'tools',
+  hidden: true,
   date: "2025-07-13"
 };
 

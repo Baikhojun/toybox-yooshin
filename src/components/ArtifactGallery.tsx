@@ -11,13 +11,16 @@ export function ArtifactGallery() {
   
   // Filtering and sorting state
   const [filterType, setFilterType] = useState<'react' | 'svg' | 'mermaid' | 'all'>('all');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterTag, setFilterTag] = useState<string | 'all'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'updatedAt' | 'createdAt' | 'title'>('updatedAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [showHidden, setShowHidden] = useState(false);
   
-  // Get all available tags for filter dropdown
+  // Get all available tags and categories for filter dropdown
   const [allTags, setAllTags] = useState<string[]>([]);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
 
   useEffect(() => {
     // Load artifacts and config when component mounts
@@ -30,6 +33,13 @@ export function ArtifactGallery() {
         setArtifacts(loadedArtifacts);
         setConfig(loadedConfig);
         setAllTags(getAllTags());
+        
+        // Get all unique categories
+        const categories = [...new Set(loadedArtifacts
+          .map(artifact => (artifact as any).category)
+          .filter(Boolean)
+        )];
+        setAllCategories(categories);
       } catch (error) {
         console.error('Error loading data:', error);
       } finally {
@@ -44,8 +54,20 @@ export function ArtifactGallery() {
   const filteredAndSortedArtifacts = useMemo(() => {
     // Filter artifacts based on criteria
     const filtered = artifacts.filter(artifact => {
+      const artifactWithCategory = artifact as any;
+      
+      // Filter hidden artifacts
+      if (artifactWithCategory.hidden && !showHidden) {
+        return false;
+      }
+      
       // Filter by type
       if (filterType !== 'all' && artifact.type !== filterType) {
+        return false;
+      }
+      
+      // Filter by category
+      if (filterCategory !== 'all' && artifactWithCategory.category !== filterCategory) {
         return false;
       }
       
@@ -85,7 +107,7 @@ export function ArtifactGallery() {
         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
       }
     });
-  }, [artifacts, filterType, filterTag, searchTerm, sortBy, sortOrder]);
+  }, [artifacts, filterType, filterCategory, filterTag, searchTerm, sortBy, sortOrder, showHidden]);
 
   if (loading) {
     return (
@@ -99,16 +121,31 @@ export function ArtifactGallery() {
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold mb-1">{config?.title || 'My TOYBOX'}</h1>
-          <p className="text-gray-600">{config?.description || 'A collection of my Claude-generated artifacts'}</p>
+        <div className="flex items-center gap-4">
+          <img src="/logo_small.jpg" alt="Yooshin Logo" className="h-12 w-auto" />
+          <div>
+            <h1 className="text-3xl font-bold mb-1">Yooshin Development Tools</h1>
+            <p className="text-gray-600">유신엔지니어링에서 사용하는 개발 도구 모음</p>
+          </div>
         </div>
       </div>
       
       {/* Filters */}
       <div className="bg-gray-50 border rounded-lg p-4 mb-6 shadow-sm">
-        <h2 className="text-lg font-medium mb-3">Browse Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg font-medium">Browse Projects</h2>
+          <button
+            onClick={() => setShowHidden(!showHidden)}
+            className={`px-3 py-1 text-sm rounded transition-colors ${
+              showHidden 
+                ? 'bg-blue-500 text-white' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            {showHidden ? '숨긴 프로젝트 숨기기' : '숨긴 프로젝트 표시'}
+          </button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
@@ -121,19 +158,42 @@ export function ArtifactGallery() {
             />
           </div>
           
+          {/* Category filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              aria-label="Filter by category"
+            >
+              <option value="all">전체 카테고리</option>
+              {allCategories.map(category => (
+                <option key={category} value={category}>
+                  {category === 'development' && '개발 도구'}
+                  {category === 'productivity' && '생산성'}
+                  {category === 'tools' && '유틸리티'}
+                  {category === 'medical' && '의료'}
+                  {category === 'entertainment' && '엔터테인먼트'}
+                  {!['development', 'productivity', 'tools', 'medical', 'entertainment'].includes(category) && category}
+                </option>
+              ))}
+            </select>
+          </div>
+          
           {/* Type filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">타입</label>
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value as 'react' | 'svg' | 'mermaid' | 'all')}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              aria-label="Filter by category"
+              aria-label="Filter by type"
             >
-              <option value="all">All Categories</option>
-              <option value="react">React Components</option>
-              <option value="svg">SVG Graphics</option>
-              <option value="mermaid">Mermaid Diagrams</option>
+              <option value="all">모든 타입</option>
+              <option value="react">React 컴포넌트</option>
+              <option value="svg">SVG 그래픽</option>
+              <option value="mermaid">Mermaid 다이어그램</option>
             </select>
           </div>
           
@@ -155,17 +215,18 @@ export function ArtifactGallery() {
         </div>
         
         {/* Clear filters button */}
-        {(filterType !== 'all' || filterTag !== 'all' || searchTerm) && (
+        {(filterType !== 'all' || filterCategory !== 'all' || filterTag !== 'all' || searchTerm) && (
           <div className="mt-3 text-right">
             <button
               onClick={() => {
                 setFilterType('all');
+                setFilterCategory('all');
                 setFilterTag('all');
                 setSearchTerm('');
               }}
               className="text-blue-600 hover:text-blue-800 text-sm"
             >
-              Clear All Filters
+              모든 필터 초기화
             </button>
           </div>
         )}
@@ -174,7 +235,7 @@ export function ArtifactGallery() {
       {/* Artifacts */}
       <div className="mb-4 flex justify-between items-center">
         <h2 className="text-lg font-medium">
-          Projects {filteredAndSortedArtifacts.length > 0 && `(${filteredAndSortedArtifacts.length})`}
+          프로젝트 {filteredAndSortedArtifacts.length > 0 && `(${filteredAndSortedArtifacts.length})`}
         </h2>
         
         {/* Sorting controls */}
@@ -263,24 +324,26 @@ export function ArtifactGallery() {
           ) : (
             <p className="text-gray-600 mb-4">No projects match your current filters</p>
           )}
-          {(filterType !== 'all' || filterTag !== 'all' || searchTerm) && (
+          {(filterType !== 'all' || filterCategory !== 'all' || filterTag !== 'all' || searchTerm) && (
             <button
               onClick={() => {
                 setFilterType('all');
+                setFilterCategory('all');
                 setFilterTag('all');
                 setSearchTerm('');
               }}
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm"
             >
-              Clear All Filters
+              모든 필터 초기화
             </button>
           )}
         </div>
       )}
       
       {config?.showFooter && (
-        <footer className="mt-12 pt-6 border-t text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} {config?.title || 'TOYBOX'}</p>
+        <footer className="mt-12 pt-6 border-t text-center text-gray-500 text-sm space-y-2">
+          <p>COPYRIGHTS (c) 2011 Yooshin Engineering Corporation, ALL RIGHTS RESERVED</p>
+          <p>시스템 문의: 02)6202-0141~9</p>
         </footer>
       )}
     </div>

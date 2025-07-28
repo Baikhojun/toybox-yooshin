@@ -5,6 +5,8 @@ export const metadata = {
   description: "고급스러운 이탈리아 스타일의 아날로그 시계 - 숨겨진 이스터에그를 찾아보세요!",
   type: "react" as const,
   tags: ["animation", "clock", "luxury", "italian", "easter-eggs"],
+  category: 'entertainment',
+  hidden: true,
   createdAt: new Date().toISOString(),
 };
 

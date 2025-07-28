@@ -7,6 +7,7 @@ export const metadata = {
   description: '유신님을 위한 집중력 향상 포모도로 타이머 - 특별한 기능들',
   type: 'react' as const,
   tags: ['productivity', 'timer', 'focus', 'pomodoro', 'yooshin'],
+  category: 'productivity',
   createdAt: new Date('2025-07-22').toISOString(),
   updatedAt: new Date('2025-07-22').toISOString(),
 };

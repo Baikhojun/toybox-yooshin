@@ -7,6 +7,8 @@ export interface Artifact {
   description?: string;
   type: 'react' | 'svg' | 'mermaid';
   tags: string[];
+  category?: string;
+  hidden?: boolean;
   folder?: string;
   code: string; // This will be empty for statically imported artifacts
   createdAt: string;

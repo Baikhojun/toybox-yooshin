@@ -7,6 +7,7 @@ export const metadata = {
   description: 'v2 Grid XML을 v3 Grid 설정으로 변환하는 도구',
   type: 'react' as const,
   tags: ['converter', 'grid', 'v2', 'v3', 'xml'],
+  category: 'development',
   createdAt: new Date('2025-07-28').toISOString(),
   updatedAt: new Date('2025-07-28').toISOString(),
 };

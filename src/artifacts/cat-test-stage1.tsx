@@ -7,6 +7,8 @@ export const metadata = {
   description: 'ADHD 진단을 위한 종합주의력검사(CAT) 1단계 - X를 제외한 도형에 반응하기',
   type: 'react' as const,
   tags: ['adhd', 'test', 'attention', 'cat', 'medical'],
+  category: 'medical',
+  hidden: true,
   createdAt: new Date('2025-07-22').toISOString(),
   updatedAt: new Date('2025-07-22').toISOString(),
 };
