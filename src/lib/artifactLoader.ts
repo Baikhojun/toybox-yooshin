@@ -27,6 +27,8 @@ export interface ArtifactMetadata {
   description?: string;
   type: 'react' | 'svg' | 'mermaid';
   tags: string[];
+  category?: string;
+  hidden?: boolean;
   folder?: string;
   createdAt: string;
   updatedAt: string;
@@ -80,6 +82,8 @@ export function loadArtifacts(): Artifact[] {
       description: metadata.description || '',
       type: metadata.type,
       tags: metadata.tags || [],
+      category: metadata.category,
+      hidden: metadata.hidden,
       folder: metadata.folder,
       code: '', // The code is now the component itself, not a string
       createdAt: metadata.createdAt,

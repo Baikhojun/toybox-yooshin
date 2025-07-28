@@ -122,7 +122,7 @@ export function ArtifactGallery() {
     <div className="p-4 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4">
-          <img src="/logo_small.jpg" alt="Yooshin Logo" className="h-12 w-auto" />
+          <img src={`${import.meta.env.BASE_URL}logo_small.jpg`} alt="Yooshin Logo" className="h-12 w-auto" />
           <div>
             <h1 className="text-3xl font-bold mb-1">Yooshin Development Tools</h1>
             <p className="text-gray-600">유신엔지니어링에서 사용하는 개발 도구 모음</p>
