@@ -56,8 +56,8 @@ export function ArtifactGallery() {
     const filtered = artifacts.filter(artifact => {
       const artifactWithCategory = artifact as any;
       
-      // Filter hidden artifacts
-      if (artifactWithCategory.hidden && !showHidden) {
+      // Filter hidden artifacts - 기본적으로 숨긴 항목은 표시하지 않음
+      if (artifactWithCategory.hidden === true && showHidden === false) {
         return false;
       }
       
@@ -142,7 +142,7 @@ export function ArtifactGallery() {
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            {showHidden ? '숨긴 프로젝트 숨기기' : '숨긴 프로젝트 표시'}
+            {showHidden ? '숨긴 프로젝트 숨기기' : `숨긴 프로젝트 표시 (${artifacts.filter(a => (a as any).hidden).length}개)`}
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
