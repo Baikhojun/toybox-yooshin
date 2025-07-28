@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-// ADHD 친화적 포모도로 타이머
+// 유신 포커스 타이머
 export const metadata = {
-  id: 'adhd-pomodoro-timer',
-  title: 'ADHD Focus Timer',
-  description: 'ADHD 친화적인 포모도로 타이머 - 집중력 향상을 위한 특별한 기능들',
+  id: 'yooshin-focus-timer',
+  title: '유신 Focus Timer',
+  description: '유신님을 위한 집중력 향상 포모도로 타이머 - 특별한 기능들',
   type: 'react' as const,
-  tags: ['productivity', 'adhd', 'timer', 'focus', 'pomodoro'],
+  tags: ['productivity', 'timer', 'focus', 'pomodoro', 'yooshin'],
   createdAt: new Date('2025-07-22').toISOString(),
   updatedAt: new Date('2025-07-22').toISOString(),
 };
 
-export default function ADHDPomodoroTimer() {
+export default function YooshinFocusTimer() {
   // 타이머 상태
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
@@ -20,7 +20,7 @@ export default function ADHDPomodoroTimer() {
   const [isBreak, setIsBreak] = useState(false);
   const [isLongBreak, setIsLongBreak] = useState(false);
   
-  // ADHD 특화 상태
+  // 집중력 향상 특화 상태
   const [sessionCount, setSessionCount] = useState(0);
   const [dailyGoal, setDailyGoal] = useState(8);
   const [completedToday, setCompletedToday] = useState(0);
@@ -214,7 +214,7 @@ export default function ADHDPomodoroTimer() {
       
       {/* 헤더 */}
       <div className="w-full max-w-2xl mb-8">
-        <h1 className="text-4xl font-bold text-center mb-4">ADHD Focus Timer</h1>
+        <h1 className="text-4xl font-bold text-center mb-4">유신 Focus Timer</h1>
         
         {/* 현재 작업 입력 */}
         <div className="flex gap-2 mb-4">
