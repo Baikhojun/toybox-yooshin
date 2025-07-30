@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export const metadata = {
   id: 'hanmadang-server-check',
@@ -18,8 +18,6 @@ interface Server {
 }
 
 export default function HanmadangServerCheck() {
-  const [isOpening, setIsOpening] = useState(false);
-
   const servers: Server[] = [
     { name: 'YERP', url: 'https://yerp.yooshin.com', displayName: 'YERP' },
     { name: 'ERP', url: 'https://erp.yooshin.com', displayName: 'ERP' },
@@ -46,25 +44,10 @@ export default function HanmadangServerCheck() {
     window.open(server.url, '_blank');
   };
 
-  const openAllServers = async () => {
-    if (isOpening) return;
-    setIsOpening(true);
-
-    // 순차적으로 서버 열기 (사용자 상호작용 유지)
-    for (let i = 0; i < servers.length; i++) {
-      const server = servers[i];
-      
-      if (i === 0) {
-        // 첫 번째 서버는 바로 열기
-        openServer(server);
-      } else {
-        // 나머지 서버들은 짧은 딜레이 후 열기
-        await new Promise(resolve => setTimeout(resolve, 500));
-        openServer(server);
-      }
-    }
-
-    setIsOpening(false);
+  const openAllServers = () => {
+    servers.forEach((server) => {
+      window.open(server.url, '_blank');
+    });
   };
 
   return (
@@ -82,14 +65,9 @@ export default function HanmadangServerCheck() {
           <div className="mb-8">
             <button
               onClick={openAllServers}
-              disabled={isOpening}
-              className={`w-full font-bold py-4 px-6 rounded-lg transition-all duration-200 shadow-lg transform ${
-                isOpening 
-                  ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl hover:-translate-y-0.5'
-              }`}
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold py-4 px-6 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
-              {isOpening ? '⏳ 서버 열기 진행 중...' : '🚀 전체 서버 한번에 열기'}
+              🚀 전체 서버 한번에 열기
             </button>
           </div>
 
@@ -134,7 +112,8 @@ export default function HanmadangServerCheck() {
           <div className="mt-8 space-y-3">
             <div className="p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-700">
-                💡 전체 서버 열기: 0.5초 간격으로 순차적으로 서버를 열어 팝업 차단을 방지합니다.
+                💡 팁: 브라우저의 팝업 차단 기능이 활성화되어 있다면, 전체 서버 열기가 제대로 동작하지 않을 수 있습니다.
+                이 경우 팝업을 허용하거나 개별 버튼을 사용해주세요.
               </p>
             </div>
             <div className="p-4 bg-amber-50 rounded-lg">
